@@ -46,25 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BSLayer\BLHoaDon.cs" />
+    <Compile Include="BSLayer\BLNhanVien.cs" />
+    <Compile Include="BSLayer\BLPhongTro.cs" />
+    <Compile Include="BSLayer\BLSinhVien.cs" />
+    <Compile Include="BSLayer\BLThanNhan.cs" />
     <Compile Include="DBLayer\MY_DB.cs" />
-    <Compile Include="FormQuanTriVien.cs">
+    <Compile Include="DTOLayer\NhanVien.cs" />
+    <Compile Include="GUILayer\FormQuanTriVien.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormQuanTriVien.Designer.cs">
+    <Compile Include="GUILayer\FormQuanTriVien.Designer.cs">
       <DependentUpon>FormQuanTriVien.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormDangNhap.cs">
+    <Compile Include="GUILayer\FormDangNhap.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormDangNhap.Designer.cs">
+    <Compile Include="GUILayer\FormDangNhap.Designer.cs">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormQuanTriVien.resx">
+    <EmbeddedResource Include="GUILayer\FormQuanTriVien.resx">
       <DependentUpon>FormQuanTriVien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormDangNhap.resx">
+    <EmbeddedResource Include="GUILayer\FormDangNhap.resx">
       <DependentUpon>FormDangNhap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
