@@ -18,7 +18,7 @@ namespace QLKTXHCMUTE
         MY_DB db;
         BLNhanVien blNhanVien;
         BLSinhVien blSinhVien;
-        BLPhongTro blPhongTro;
+        BLPhong blPhong;
         BLHoaDon blHoaDon;
         BLThanNhan blThanNhan;
         int chucnang;
@@ -51,6 +51,7 @@ namespace QLKTXHCMUTE
             blHoaDon = new BLHoaDon();
             blSinhVien = new BLSinhVien();
             blThanNhan = new BLThanNhan();
+            blPhong = new BLPhong();
             btnSuaSV.Enabled = false;
             btnXoaSV.Enabled = false;
             btnLuaSV.Enabled = false;
@@ -80,6 +81,7 @@ namespace QLKTXHCMUTE
             btnLuaSV.Enabled = true;
             btnSuaSV.Enabled = false;
             btnXoaSV.Enabled = false;
+            btnThemSV.Enabled = false;
             chucnang = 1;
             
             //blSinhVien.themSV(txtMaSV.Text, txtChuyenNganhSV.Text, txtKhoaSV.Text, DateTime.Now.Date, dateHanPhongSV.Value.Date, txtMaphongSV.Text, txtHoTenLotSV.Text, txtTenSV.Text, dateNSinhSV.Value.Date, a, txtQueQuanSV.Text, txtsdtSV.Text, txtCCCDSV.Text);
@@ -91,11 +93,11 @@ namespace QLKTXHCMUTE
             {
                 int r = tableQuanLySinhVien.CurrentCell.RowIndex;
                 blSinhVien.xoaSV(tableQuanLySinhVien.Rows[r].Cells[0].Value.ToString());
-                MessageBox.Show("Đã thêm xong!");
+                MessageBox.Show("Đã Xóa xong!");
             }
-            catch (SqlException)
+            catch (SqlException a)
             {
-                DialogResult result = MessageBox.Show("Không thêm được, Bạn có muốn chỉnh sửa lại không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(a.ToString(), "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
                     pnTTSV.Enabled = false;
@@ -113,6 +115,20 @@ namespace QLKTXHCMUTE
             {
                 btnSuaSV.Enabled = true;
                 btnXoaSV.Enabled = true;
+                int r = tableQuanLySinhVien.CurrentCell.RowIndex;
+                txtMaSV.Text = tableQuanLySinhVien.Rows[r].Cells[0].Value.ToString();
+                txtHoTenLotSV.Text = tableQuanLySinhVien.Rows[r].Cells[1].Value.ToString();
+                txtTenSV.Text = tableQuanLySinhVien.Rows[r].Cells[2].Value.ToString();
+                dateNSinhSV.Value = DateTime.Parse(tableQuanLySinhVien.Rows[r].Cells[3].Value.ToString());
+                rdNamSV.Checked = tableQuanLySinhVien.Rows[r].Cells[4].Value.ToString() == "Nam"? true: false;
+                rdNuSV.Checked = tableQuanLySinhVien.Rows[r].Cells[4].Value.ToString() == "Nu" ? true : false;
+                txtQueQuanSV.Text = tableQuanLySinhVien.Rows[r].Cells[5].Value.ToString();
+                txtsdtSV.Text = tableQuanLySinhVien.Rows[r].Cells[6].Value.ToString();
+                txtCCCDSV.Text = tableQuanLySinhVien.Rows[r].Cells[7].Value.ToString();
+                txtKhoaSV.Text = tableQuanLySinhVien.Rows[r].Cells[8].Value.ToString();
+                txtChuyenNganhSV.Text = tableQuanLySinhVien.Rows[r].Cells[9].Value.ToString();
+                txtMaphongSV.Text = tableQuanLySinhVien.Rows[r].Cells[10].Value.ToString();
+                dateHanPhongSV.Value = DateTime.Parse(tableQuanLySinhVien.Rows[r].Cells[12].Value.ToString());
             }
         }
 
@@ -123,6 +139,7 @@ namespace QLKTXHCMUTE
             this.btnThemSV.Enabled = false;
             this.btnXoa.Enabled = false;
             this.pnTTSV.Enabled = true;
+            this.btnLuaSV.Enabled = true;
             int r = tableQuanLySinhVien.CurrentCell.RowIndex;
 
             txtMaSV.Text = tableQuanLySinhVien.Rows[r].Cells[0].Value.ToString();
@@ -133,17 +150,16 @@ namespace QLKTXHCMUTE
         {
             try
             {
-                string a = rdNamSV.Checked ? "Nam" : "Nu";
-                blSinhVien.themSV(txtMaSV.Text, txtChuyenNganhSV.Text, txtKhoaSV.Text, DateTime.Now.Date, dateHanPhongSV.Value.Date, txtMaphongSV.Text, txtHoTenLotSV.Text, txtTenSV.Text, dateNSinhSV.Value.Date, a, txtQueQuanSV.Text, txtsdtSV.Text, txtCCCDSV.Text);
-                MessageBox.Show("Đã thêm xong!");
+                blSinhVien.CạpNhatThongTinSinhVien(txtMaSV.Text, txtHoTenLotSV.Text, txtTenSV.Text, dateNSinhSV.Value.Date, txtQueQuanSV.Text, txtsdtSV.Text);
+                MessageBox.Show("Đã Cập nhật thành công!");
                 pnTTSV.Enabled = false;
                 btnSuaSV.Enabled = true;
                 btnLuaSV.Enabled = false;
                 btnXoa.Enabled = true;
             }
-            catch (SqlException)
+            catch (SqlException a)
             {
-                DialogResult result = MessageBox.Show("Không thêm được, Bạn có muốn chỉnh sửa lại không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(a.ToString(), "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.No)
                 {
                     pnTTSV.Enabled = false;
@@ -154,6 +170,21 @@ namespace QLKTXHCMUTE
             }
         }
 
+        private void clearAll()
+        {
+            txtCCCDSV.Text = string.Empty;
+            txtCCCDSV.Text = string.Empty;
+            txtChuyenNganhSV.Text = string.Empty;
+            txtHoTenLotSV.Text = string.Empty;
+            txtKhoaSV.Text = string.Empty;
+            txtMaSV.Text = string.Empty;
+            txtsdtSV.Text = string.Empty;
+            txtMaphongSV.Text = string.Empty;
+            txtQueQuanSV.Text = string.Empty;
+            txtTenSV.Text = string.Empty;
+            txtMaphongSV.Text = string.Empty;
+        }
+
         private void ThemSV()
         {
             try
@@ -161,22 +192,23 @@ namespace QLKTXHCMUTE
                 string a = rdNamSV.Checked ? "Nam" : "Nu";
                 blSinhVien.themSV(txtMaSV.Text, txtChuyenNganhSV.Text, txtKhoaSV.Text, DateTime.Now.Date, dateHanPhongSV.Value.Date, txtMaphongSV.Text, txtHoTenLotSV.Text, txtTenSV.Text, dateNSinhSV.Value.Date, a, txtQueQuanSV.Text, txtsdtSV.Text, txtCCCDSV.Text);
                 MessageBox.Show("Đã thêm xong!");
-                pnTTSV.Enabled = false;
-                btnSuaSV.Enabled = true;
-                btnLuaSV.Enabled = false;
-                btnXoa.Enabled = true;
+                chucnang = 0;
+
             }
-            catch (SqlException)
+            catch (SqlException a)
             {
-                DialogResult result = MessageBox.Show("Không thêm được, Bạn có muốn chỉnh sửa lại không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
+                DialogResult result = MessageBox.Show(a.Message.ToString()  + ". Bạn còn muốn tiếp tục chỉnh sửa không?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    pnTTSV.Enabled = false;
-                    btnSuaSV.Enabled = true;
-                    btnLuaSV.Enabled = false;
-                    btnXoa.Enabled = true;
+                    return;
                 }
             }
+            pnTTSV.Enabled = false;
+            btnSuaSV.Enabled = true;
+            btnLuaSV.Enabled = false;
+            btnXoa.Enabled = true;
+            btnThemSV.Enabled = true;
+            clearAll();
         }
 
         private void btnLuaSV_Click(object sender, EventArgs e)
@@ -189,13 +221,56 @@ namespace QLKTXHCMUTE
             {
                 SuaSV();
             }
-            chucnang = 0;
             LoadThongTinSinhVien(tableQuanLySinhVien);
         }
 
         private void btnTaiSV_Click(object sender, EventArgs e)
         {
             LoadThongTinSinhVien(tableQuanLySinhVien);
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void txtMaPhongHD_TextChanged(object sender, EventArgs e)
+        {
+            DataTable dt = blHoaDon.XemThongTinHoaDonCuaPhong(this.txtMaPhongHD.Text);
+            tableHoaDon.DataSource = dt;
+            tableHoaDon.Columns["MaHD"].HeaderText = "Mã hóa đơn";
+            tableHoaDon.Columns["MaPhong"].HeaderText = "Mã phòng";
+            tableHoaDon.Columns["TienNuoc"].HeaderText = "Tiền điện";
+            tableHoaDon.Columns["TienDien"].HeaderText = "Tiền nước";
+            tableHoaDon.Columns["TongTien"].HeaderText = "Tổng tiền";
+            tableHoaDon.Columns["NgayGhi"].HeaderText = "Ngày ghi";
+            tableHoaDon.Columns["NuocThangTruoc"].HeaderText = "Nước tháng trước";
+            tableHoaDon.Columns["DienThangTruoc"].HeaderText = "Điện tháng trước";
+            tableHoaDon.Columns["NuocThangNay"].HeaderText = "Nước tháng này";
+            tableHoaDon.Columns["DienThangNay"].HeaderText = "Điện tháng này";
+            tableHoaDon.Columns["SoDienSuDung"].HeaderText = "Số điện sử dụng";
+            tableHoaDon.Columns["SoNuocSuDung"].HeaderText = "Số nước sử dụng";
+            tableHoaDon.Columns["DaThanhToan"].HeaderText = "Đã thanh toán";
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            blHoaDon.GhiHoaDon(txtMaHD.Text, txtMaPhongHD.Text, int.Parse(txtM3Nuoc.Text), int.Parse(txtKgDienj.Text), (cbThanhtoan.Checked)? 1:0);
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            blPhong.themPhong(txtMaPhong.Text, cbLoaiPhong.Text, txtMoTaphong.Text, cbToa.Text);
+        }
+
+        private void btnSua_Click(object sender, EventArgs e)
+        {
+            blPhong.SuaThongTinPhong(txtMaPhong.Text, cbLoaiPhong.Text, txtMoTaphong.Text, cbToa.Text);
+        }
+
+        private void cbXemHDaTT_CheckedChanged(object sender, EventArgs e)
+        {
+            blHoaDon.XemHoaDonChuaThanhToan(txtMaPhong.Text);
         }
     }
 

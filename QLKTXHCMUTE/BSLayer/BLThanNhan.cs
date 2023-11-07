@@ -42,5 +42,20 @@ namespace QLKTXHCMUTE.BSLayer
                 return false;
             }
         }
+
+        public void ChinhSuaThanNhan(string id, string ho, string ten, DateTime ngaysinh, string quequan, string SDT, string NgheNghiep)
+        {
+            SqlCommand command = new SqlCommand("proc_SuaThanNhan", db.getConnection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@ID", SqlDbType.VarChar).Value = id;
+            command.Parameters.Add("@Ho", SqlDbType.NVarChar).Value = ho;
+            command.Parameters.Add("@Ten", SqlDbType.NVarChar).Value = ten;
+            command.Parameters.Add("@NgaySinh", SqlDbType.Date).Value = ngaysinh;
+            command.Parameters.Add("@QueQuan", SqlDbType.NVarChar).Value = quequan;
+            command.Parameters.Add("@SDT", SqlDbType.VarChar).Value = SDT;
+            command.Parameters.Add("@NgNghiep", SqlDbType.VarChar).Value = NgheNghiep;
+            command.ExecuteNonQuery();
+            db.closeConnection();
+        }
     }
 }

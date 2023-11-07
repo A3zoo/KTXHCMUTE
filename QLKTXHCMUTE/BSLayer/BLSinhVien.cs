@@ -18,23 +18,33 @@ namespace QLKTXHCMUTE.BSLayer
             db = new MY_DB();
         }
 
-        public void themSV()
+        public void CạpNhatThongTinSinhVien(string id, string ho, string ten, DateTime ngaysinh, string quequan, string SDT)
         {
-
+            SqlCommand command = new SqlCommand("proc_CapNhatThongTin", db.getConnection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add("@ID", SqlDbType.VarChar).Value = id;
+            command.Parameters.Add("@Ho", SqlDbType.NVarChar).Value = ho;
+            command.Parameters.Add("@Ten", SqlDbType.NVarChar).Value = ten;
+            command.Parameters.Add("@NgaySinh", SqlDbType.Date).Value = ngaysinh;
+            command.Parameters.Add("@QueQuan", SqlDbType.NVarChar).Value = quequan;
+            command.Parameters.Add("@SDT", SqlDbType.VarChar).Value = SDT;
+            command.ExecuteNonQuery();
+            db.closeConnection();
         }
 
         public DataTable layTatCaSV()
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM V_TTSinhVien", db.getConnection);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM V_DSSinhVien", db.getConnection);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             da.Fill(dt);
+            db.closeConnection();
             return dt;
         }
 
         public bool xoaSV(string id)
         {
-            SqlCommand command = new SqlCommand("XoaSinhVien", db.getConnection);
+            SqlCommand command = new SqlCommand("proc_XoaSinhVien", db.getConnection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@ID", SqlDbType.VarChar).Value = id;
             db.openConnection();
@@ -51,7 +61,7 @@ namespace QLKTXHCMUTE.BSLayer
         }
         public bool themSV(string id, string chuyennganh, string khoa, DateTime ngaydk, DateTime thoihan, string maphong, string ho, string ten, DateTime nsinh, string gtinh, string quequan, string sdt, string cccd)
         {
-            SqlCommand command = new SqlCommand("ThemSinhVien", db.getConnection);
+            SqlCommand command = new SqlCommand("proc_ThemSinhVien", db.getConnection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@ID", SqlDbType.VarChar).Value = id;
             command.Parameters.Add("@ChuyenNganh", SqlDbType.VarChar).Value = chuyennganh;
@@ -78,5 +88,6 @@ namespace QLKTXHCMUTE.BSLayer
                 return false;
             }
         }
+
     }
 }

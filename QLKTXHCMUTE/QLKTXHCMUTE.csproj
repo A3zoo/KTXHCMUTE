@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="BSLayer\BLHoaDon.cs" />
     <Compile Include="BSLayer\BLNhanVien.cs" />
-    <Compile Include="BSLayer\BLPhongTro.cs" />
+    <Compile Include="BSLayer\BLPhong.cs" />
     <Compile Include="BSLayer\BLSinhVien.cs" />
     <Compile Include="BSLayer\BLThanNhan.cs" />
     <Compile Include="DBLayer\MY_DB.cs" />
